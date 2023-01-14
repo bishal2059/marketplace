@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 
-const { productsModel } = require("./product.mongo");
+const { productsModel } = require("./products.mongo");
 
 const validation = {
   validator: (v) => /^[a-zA-Z]+$/.test(v),

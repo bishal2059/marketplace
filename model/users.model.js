@@ -1,23 +1,21 @@
 const { usersModel } = require("./users.mongo");
+const { isEmail } = require("validator");
+const bcrypt = require("bcrypt");
 
-const getUser = async function (userData) {
+const getUser = async function (email, password) {
   try {
-    const user = await usersModel.findOne(
-      {
-        email: userData.email,
-        password: userData.password,
-      },
-      { _id: 0, __v: 0 }
-    );
-    if (!user) {
-      throw new Error("Access denied");
+    if (!isEmail(email)) throw Error("Invalid Email");
+    const user = await usersModel.findOne({ email }, { __v: 0 });
+    if (!user) throw Error("Email is not registered");
+    if (user) {
+      const authUser = await bcrypt.compare(password, user.password);
+      if (authUser) {
+        return user;
+      }
+      throw Error("Incorrect password");
     }
-    return user;
   } catch (err) {
-    console.log(err.message);
-    return {
-      error: "Access denied",
-    };
+    throw Error(err.message);
   }
 };
 
