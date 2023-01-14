@@ -21,24 +21,40 @@ const getUser = async function (userData) {
   }
 };
 
+const errorHandler = async function (err) {
+  const errorObject = {};
+  // console.log(err.code);
+  if (err.code === 11000) {
+    Object.keys(err.keyValue).forEach((v) => {
+      errorObject[v] = `${err.keyValue[v]} is already registered`;
+    });
+  }
+  if (err._message === "User validation failed") {
+    if (err.message.includes("Cast to Number failed")) {
+      errorObject[
+        err.errors?.age?.path
+      ] = `${err.errors?.age?.value} isn't correct age`;
+    }
+    if (err.message.includes("Cast to [date] failed")) {
+      errorObject[
+        err.errors?.["dateOfBirth.0"]?.reason?.path
+      ] = `${err.errors?.["dateOfBirth.0"]?.reason?.value} isn't correct DOB`;
+    }
+    Object.values(err.errors).forEach(({ properties }) => {
+      errorObject[properties?.path] = properties?.message;
+    });
+  }
+  return errorObject;
+};
+
 const createNewUser = async function (userData) {
   try {
-    const newUserName = await usersModel.find({ userName: userData.userName });
-    const newEmail = await usersModel.find({ email: userData.email });
-    if (newUserName.length || newEmail.length) {
-      throw new Error("User Already exists");
-    }
-    await usersModel.create(userData);
-    return await usersModel.findOne(
-      { email: userData.email, userName: userData.userName },
-      {
-        _id: 0,
-        __v: 0,
-      }
-    );
+    return await usersModel.create(userData);
   } catch (err) {
     console.log(err.message);
-    return { error: err.message };
+    return {
+      errors: await errorHandler(err),
+    };
   }
 };
 

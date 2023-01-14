@@ -1,19 +1,22 @@
 {
   "name": "shop_be",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Bazar Application API",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "watch": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bishal Sapkota",
   "license": "ISC",
   "dependencies": {
-    "email-validator": "^2.0.4",
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
-    "mongoose": "^6.8.3"
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.3",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

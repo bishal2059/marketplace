@@ -1,5 +1,3 @@
-const express = require("express");
-
 const { createNewUser } = require("../model/users.model");
 
 const httpsignInHandler = async function (req, res) {

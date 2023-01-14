@@ -4,7 +4,6 @@ const httploginHandler = async function (req, res) {
   const userData = req.body;
   try {
     const authorizedUser = await getUser(userData);
-    // console.log(authorizedUser);
     return res.status(200).json(authorizedUser);
   } catch (err) {
     console.log(err.message);

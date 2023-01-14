@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const validator = require("email-validator");
+const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 const { productsModel } = require("./product.mongo");
 
@@ -34,21 +35,21 @@ const historySchema = new mongoose.Schema({
 const usersSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true,
-    minLength: 1,
-    maxLength: 30,
+    required: [true, "First Name is required"],
+    minLength: [1, "Minimum length is 1"],
+    maxLength: [30, "Maximum length is 30"],
     validate: validation,
   },
   lastName: {
     type: String,
-    required: true,
-    minLength: 1,
-    maxLength: 30,
+    required: [true, "Last name is required"],
+    minLength: [1, "Minimum length is 1"],
+    maxLength: [30, "Maximum length is 30"],
     validate: validation,
   },
   gender: {
     type: String,
-    required: true,
+    required: [true, "Gender is required"],
     validate: {
       validator: (v) => v === "Male" || v === "Female",
       message: (props) => `${props.value} is't the correct gender`,
@@ -56,26 +57,32 @@ const usersSchema = new mongoose.Schema({
   },
   age: {
     type: Number,
-    required: true,
-    min: 10,
-    max: 100,
+    required: [true, "Age is required"],
+    min: [10, "Minimum required age is 10"],
+    max: [100, "Maximum possible age is 100"],
+    validate: {
+      validator: (v) => Boolean(Number(v)),
+      message: (props) => `${props} is not a valid age`,
+    },
   },
   dateOfBirth: {
-    type: Date,
-    required: true,
+    type: [Date, "Date of birth should be in correct format"],
+    required: [true, "Date of Birth is required"],
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Email is required"],
+    unique: true,
     validate: {
-      validator: (v) => validator.validate(v),
+      validator: (v) => validator.isEmail(v),
       message: (props) => `${props.value} is invalid email`,
     },
   },
   phoneNo: {
     type: String,
     required: true,
-    length: 10,
+    length: [10, "It is not a valid phone number"],
+    unique: true,
     validate: {
       validator: (v) => v.startsWith("98"),
       message: (props) => `${props.value} is invalid number`,
@@ -83,11 +90,13 @@ const usersSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    required: true,
+    required: [true, "Username is required"],
+    unique: true,
   },
   password: {
     type: String,
-    required: true,
+    minLength: [7, "Minimum password length is 7"],
+    required: [true, "Password is required"],
   },
   favourites: {
     default: [],
@@ -107,6 +116,16 @@ const usersSchema = new mongoose.Schema({
     default: false,
     type: Boolean,
   },
+});
+
+usersSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  const salt1 = await bcrypt.genSalt();
+  const salt2 = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  this.userName = await bcrypt.hash(this.userName, salt1);
+  this.phoneNo = await bcrypt.hash(this.phoneNo, salt2);
+  next();
 });
 
 const usersModel = mongoose.model("User", usersSchema);
