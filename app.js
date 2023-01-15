@@ -24,7 +24,7 @@ app.use((err, req, res, next) => {
 app.use("/products", authenticateUser, productsRoute);
 app.use("/signin", signInRoute);
 app.use("/login", loginRoute);
-app.use("/favourites", favouriteRoute);
-app.use("/cart", cartRoute);
+app.use("/favourites", authenticateUser, favouriteRoute);
+app.use("/cart", authenticateUser, cartRoute);
 
 module.exports = app;

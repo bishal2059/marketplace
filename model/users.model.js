@@ -33,10 +33,11 @@ const errorHandler = async function (err) {
         err.errors?.age?.path
       ] = `${err.errors?.age?.value} isn't correct age`;
     }
-    if (err.message.includes("Cast to [date] failed")) {
+    if (err.message.includes("Cast to date failed")) {
+      console.log(err.errors);
       errorObject[
-        err.errors?.["dateOfBirth.0"]?.reason?.path
-      ] = `${err.errors?.["dateOfBirth.0"]?.reason?.value} isn't correct DOB`;
+        err.errors?.dateOfBirth?.path
+      ] = `${err.errors?.dateOfBirth?.value} isn't correct DOB`;
     }
     Object.values(err.errors).forEach(({ properties }) => {
       errorObject[properties?.path] = properties?.message;
@@ -47,7 +48,10 @@ const errorHandler = async function (err) {
 
 const createNewUser = async function (userData) {
   try {
-    return await usersModel.create(userData);
+    // prettier-ignore
+    const { firstName, lastName, age, gender, dateOfBirth, email, phoneNo,userName, password} = userData;
+    // prettier-ignore
+    return await usersModel.create({ firstName, lastName, age, gender, dateOfBirth, email, phoneNo, userName, password});
   } catch (err) {
     console.log(err.message);
     return {

@@ -10,6 +10,7 @@ const authenticateUser = function (req, res, next) {
         return res.status(403).json({ error: "Access Denied" });
       } else {
         console.log(decodedToken);
+        res.locals = decodedToken;
         next();
       }
     });

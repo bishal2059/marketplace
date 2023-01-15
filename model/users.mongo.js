@@ -66,7 +66,7 @@ const usersSchema = new mongoose.Schema({
     },
   },
   dateOfBirth: {
-    type: [Date, "Date of birth should be in correct format"],
+    type: Date,
     required: [true, "Date of Birth is required"],
   },
   email: {
@@ -100,13 +100,13 @@ const usersSchema = new mongoose.Schema({
   },
   favourites: {
     default: [],
-    type: [mongoose.SchemaType.ObjectId],
-    ref: "productsModel",
+    type: [mongoose.ObjectId],
+    ref: productsModel,
   },
   cart: {
     default: [],
-    type: [mongoose.SchemaType.ObjectId],
-    ref: "productsModel",
+    type: [mongoose.ObjectId],
+    ref: productsModel,
   },
   history: {
     default: [],

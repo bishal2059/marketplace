@@ -62,29 +62,12 @@ const storeAllProducts = async function () {
       "https://dummyjson.com/products?limit=100"
     );
     allProducts.data["products"].forEach(async (data) => {
-      const {
-        title,
-        description,
-        price,
-        discountPercentage,
-        rating,
-        stock,
-        brand,
-        category,
-        thumbnail,
-        images,
+      // prettier-ignore
+      const { title, description, price, discountPercentage, rating, stock, brand, category, thumbnail, images,
       } = data;
+      // prettier-ignore
       await saveProducts({
-        name: title,
-        description,
-        price,
-        discountPercentage,
-        rating,
-        stock,
-        brand,
-        category,
-        thumbnail,
-        images,
+        name: title, description, price, discountPercentage, rating, stock, brand, category, thumbnail, images,
       });
     });
   } catch (err) {
