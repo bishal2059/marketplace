@@ -27,4 +27,8 @@ app.use("/login", loginRoute);
 app.use("/favourites", authenticateUser, favouriteRoute);
 app.use("/cart", authenticateUser, cartRoute);
 
+app.all("*", (req, res) => {
+  res.status(404).send("Page Not Found");
+});
+
 module.exports = app;

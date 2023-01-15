@@ -22,7 +22,6 @@ const httpAddFavouriteHandler = async function (req, res) {
   }
   try {
     const data = await addToFavourite(productId, userId);
-    console.log(data);
     if (data.modifiedCount === 1 && data.matchedCount === 1) {
       return res.status(201).json({ success: "Added to Favourite" });
     }
@@ -45,7 +44,6 @@ const httpRemoveFavouriteHandler = async function (req, res) {
   }
   try {
     const data = await removeFromFavourite(productId, userId);
-    console.log(data);
     if (data.modifiedCount === 1 && data.matchedCount === 1) {
       return res.status(201).json({ success: "Removed from Favourite" });
     }

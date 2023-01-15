@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const usersModel = require("../model/users.mongo");
 
 const authenticateUser = function (req, res, next) {
   const token = req.cookies.jwt;
