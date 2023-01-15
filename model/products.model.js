@@ -1,9 +1,38 @@
 const axios = require("axios");
 const { productsModel } = require("./products.mongo");
 
-const getAllProducts = async function () {
+const getAllProducts = async function (limitedPage, filter) {
+  let filterObject = {};
+  if (filter) {
+    const filterString = filter.replaceAll("%", " ");
+    filterObject = {
+      $or: [
+        { name: new RegExp(`${filterString}`, "i") },
+        { brand: new RegExp(`${filterString}`, "i") },
+        { category: new RegExp(`${filterString}`, "i") },
+      ],
+    };
+  }
   try {
-    return await productsModel.find({}, { __v: 0 });
+    return await productsModel
+      .find(filterObject, { __v: 0 })
+      .sort()
+      .skip(limitedPage.skip)
+      .limit(limitedPage.limit);
+  } catch (err) {
+    return {
+      error: "Products couldn't be found",
+    };
+  }
+};
+
+const getProduct = async function (limitedPage, category) {
+  try {
+    return await productsModel
+      .find({ category: `${category}` }, { __v: 0 })
+      .sort()
+      .skip(limitedPage.skip)
+      .limit(limitedPage.limit);
   } catch (err) {
     return {
       error: "Products couldn't be found",
@@ -66,5 +95,6 @@ const storeAllProducts = async function () {
 
 module.exports = {
   getAllProducts,
+  getProduct,
   storeAllProducts,
 };
