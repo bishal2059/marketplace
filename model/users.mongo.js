@@ -91,6 +91,7 @@ const usersSchema = new mongoose.Schema({
   userName: {
     type: String,
     required: [true, "Username is required"],
+    minLength: [5, "Username should have more than 5 character"],
     unique: true,
   },
   password: {
@@ -120,11 +121,11 @@ const usersSchema = new mongoose.Schema({
 
 usersSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt();
-  const salt1 = await bcrypt.genSalt();
-  const salt2 = await bcrypt.genSalt();
+  // const salt1 = await bcrypt.genSalt();
+  // const salt2 = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
-  this.userName = await bcrypt.hash(this.userName, salt1);
-  this.phoneNo = await bcrypt.hash(this.phoneNo, salt2);
+  // this.userName = await bcrypt.hash(this.userName, salt1);
+  // this.phoneNo = await bcrypt.hash(this.phoneNo, salt2);
   next();
 });
 

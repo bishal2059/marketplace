@@ -55,7 +55,7 @@ const createNewUser = async function (userData) {
   } catch (err) {
     console.log(err.message);
     return {
-      errors: await errorHandler(err),
+      error: await errorHandler(err),
     };
   }
 };
