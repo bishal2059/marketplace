@@ -10,7 +10,9 @@ const httpsignInHandler = async function (req, res) {
     userData.password !== userData.cpassword
   ) {
     return res.status(400).json({
-      error: "Confirm password and password doesn't match",
+      error: {
+        cpassword: "Confirm password and password doesn't match",
+      },
     });
   }
   try {
