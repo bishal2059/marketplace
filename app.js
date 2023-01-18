@@ -7,6 +7,7 @@ const signInRoute = require("./routes/signin.route");
 const favouriteRoute = require("./routes/favourites.route");
 const cartRoute = require("./routes/cart.route");
 const { authenticateUser } = require("./middleware/auth.middleware");
+const verificationRouter = require("./routes/verification.route");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/signin", signInRoute);
 app.use("/login", loginRoute);
 app.use("/favourites", authenticateUser, favouriteRoute);
 app.use("/cart", authenticateUser, cartRoute);
+app.use("/verify", verificationRouter);
 
 app.all("*", (req, res) => {
   res.status(404).send("Page Not Found");
