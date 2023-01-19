@@ -1,19 +1,15 @@
 const { createNewUser } = require("../model/users.model");
+const { signInDataVerification } = require("../services/signVerify");
 
 const httpsignInHandler = async function (req, res) {
   const userData = req.body;
   if (!userData) {
     return res.status(400).json({ error: "Empty user data" });
   }
-  if (
-    !userData.hasOwnProperty("cpassword") ||
-    userData.password !== userData.cpassword
-  ) {
-    return res.status(400).json({
-      error: {
-        cpassword: "Confirm password and password doesn't match",
-      },
-    });
+  try {
+    await signInDataVerification(userData);
+  } catch (err) {
+    return res.status(400).json({ error: err });
   }
   try {
     const savedData = await createNewUser(userData);

@@ -34,7 +34,6 @@ const errorHandler = async function (err) {
       ] = `${err.errors?.age?.value} isn't correct age`;
     }
     if (err.message.includes("Cast to date failed")) {
-      console.log(err.errors);
       errorObject[
         err.errors?.dateOfBirth?.path
       ] = `${err.errors?.dateOfBirth?.value} isn't correct DOB`;
