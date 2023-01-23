@@ -7,6 +7,14 @@ const {
 
 const httploginHandler = async function (req, res) {
   const { email, password } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: { email: "Email is required" } });
+  }
+  if (!password) {
+    return res
+      .status(400)
+      .json({ error: { password: "Password is required" } });
+  }
   try {
     const userData = await getUser(email, password);
 

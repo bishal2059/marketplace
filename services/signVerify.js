@@ -14,11 +14,10 @@ const signInDataVerification = async function (userData) {
       try {
         const dob = new Date(userData.dateOfBirth);
         if (!isFinite(dob.valueOf())) throw new Error("Invalid Date of Birth");
-        if (
-          new Date().getFullYear() - dob.getFullYear() < 15 ||
-          new Date().getFullYear() - dob.getFullYear() > 100
-        ) {
-          reject({ dateOfBirth: "Required age is 15 to 100" });
+        if (new Date().getFullYear() - dob.getFullYear() < 15) {
+          reject({ dateOfBirth: "Minimum age is 15" });
+        } else if (new Date().getFullYear() - dob.getFullYear() > 100) {
+          reject({ dateOfBirth: "Maximum age is 100" });
         } else {
           userData.age = new Date().getFullYear() - dob.getFullYear();
         }
