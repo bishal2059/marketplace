@@ -14,11 +14,24 @@ const getAllProducts = async function (limitedPage, filter) {
     };
   }
   try {
-    return await productsModel
+    const allProducts = {};
+    allProducts.products = await productsModel
       .find(filterObject, { __v: 0 })
       .sort()
       .skip(limitedPage.skip)
       .limit(limitedPage.limit);
+    const totalCount = await productsModel.find(filterObject).count();
+    if (limitedPage.skip === 0) {
+      allProducts.previous = false;
+    } else {
+      allProducts.previous = true;
+    }
+    if (limitedPage.skip + limitedPage.limit >= totalCount) {
+      allProducts.next = false;
+    } else {
+      allProducts.next = true;
+    }
+    return allProducts;
   } catch (err) {
     return {
       error: "Products couldn't be found",
@@ -28,11 +41,26 @@ const getAllProducts = async function (limitedPage, filter) {
 
 const getProduct = async function (limitedPage, category) {
   try {
-    return await productsModel
+    const allProducts = {};
+    allProducts.products = await productsModel
       .find({ category: `${category}` }, { __v: 0 })
       .sort()
       .skip(limitedPage.skip)
       .limit(limitedPage.limit);
+    const totalCount = await productsModel
+      .find({ category: `${category}` })
+      .count();
+    if (limitedPage.skip === 0) {
+      allProducts.previous = false;
+    } else {
+      allProducts.previous = true;
+    }
+    if (limitedPage.skip + limitedPage.limit >= totalCount) {
+      allProducts.next = false;
+    } else {
+      allProducts.next = true;
+    }
+    return allProducts;
   } catch (err) {
     return {
       error: "Products couldn't be found",
