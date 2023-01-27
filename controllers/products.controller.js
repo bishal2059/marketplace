@@ -12,7 +12,7 @@ const httpProductHandler = async function (req, res) {
   const limitedPage = getPagination(req.query);
   return res
     .status(200)
-    .json(await getProduct(limitedPage, req.params.category));
+    .json(await getProduct(limitedPage, req.params.category, req.query?.name));
 };
 
 module.exports = { httpProductsHandler, httpProductHandler };

@@ -1,18 +1,26 @@
 const axios = require("axios");
 const { productsModel } = require("./products.mongo");
 
+const serachLogic = function (filter) {
+  if (!filter) return {};
+  const searchWord = filter
+    .split(" ")
+    .map((v) => v.replaceAll(/[^a-z0-9]/gi, ""));
+  return {
+    $or: searchWord
+      .map((e) => {
+        return [
+          { name: new RegExp(`${e}`, "i") },
+          { brand: new RegExp(`${e}`, "i") },
+          { category: new RegExp(`${e}`, "i") },
+        ];
+      })
+      .flat(),
+  };
+};
+
 const getAllProducts = async function (limitedPage, filter) {
-  let filterObject = {};
-  if (filter) {
-    const filterString = filter.replaceAll("%", " ");
-    filterObject = {
-      $or: [
-        { name: new RegExp(`${filterString}`, "i") },
-        { brand: new RegExp(`${filterString}`, "i") },
-        { category: new RegExp(`${filterString}`, "i") },
-      ],
-    };
-  }
+  const filterObject = serachLogic(filter);
   try {
     const allProducts = {};
     allProducts.products = await productsModel
@@ -39,11 +47,14 @@ const getAllProducts = async function (limitedPage, filter) {
   }
 };
 
-const getProduct = async function (limitedPage, category) {
+const getProduct = async function (limitedPage, category, filter) {
+  const filterObject = serachLogic(filter);
   try {
     const allProducts = {};
     allProducts.products = await productsModel
-      .find({ category: `${category}` }, { __v: 0 })
+      .find(Object.assign({ category: `${category}` }, filterObject), {
+        __v: 0,
+      })
       .sort()
       .skip(limitedPage.skip)
       .limit(limitedPage.limit);
