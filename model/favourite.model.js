@@ -1,3 +1,4 @@
+const { addData } = require("../services/addData");
 const { usersModel } = require("./users.mongo");
 
 const getFavourite = async function (id) {
@@ -7,7 +8,7 @@ const getFavourite = async function (id) {
       .populate({ path: "favourites" });
     if (!favouriteProducts) return [];
 
-    return favouriteProducts;
+    return await addData(favouriteProducts.favourites, id);
   } catch (err) {
     console.log(err.message);
     return {

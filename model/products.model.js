@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { addData } = require("../services/addData");
 const { productsModel } = require("./products.mongo");
 
 const serachLogic = function (filter) {
@@ -19,7 +20,7 @@ const serachLogic = function (filter) {
   };
 };
 
-const getAllProducts = async function (limitedPage, filter) {
+const getAllProducts = async function (limitedPage, filter, id) {
   const filterObject = serachLogic(filter);
   try {
     const allProducts = {};
@@ -28,6 +29,7 @@ const getAllProducts = async function (limitedPage, filter) {
       .sort()
       .skip(limitedPage.skip)
       .limit(limitedPage.limit);
+    allProducts.products = await addData(allProducts.products, id);
     const totalCount = await productsModel.find(filterObject).count();
     if (limitedPage.skip === 0) {
       allProducts.previous = false;
@@ -47,17 +49,18 @@ const getAllProducts = async function (limitedPage, filter) {
   }
 };
 
-const getProduct = async function (limitedPage, category, filter) {
+const getProduct = async function (limitedPage, category, filter, id) {
   const filterObject = serachLogic(filter);
   try {
     const allProducts = {};
-    allProducts.products = await productsModel
+    const products = await productsModel
       .find(Object.assign({ category: `${category}` }, filterObject), {
         __v: 0,
       })
       .sort()
       .skip(limitedPage.skip)
       .limit(limitedPage.limit);
+    allProducts.products = await addData(products, id);
     const totalCount = await productsModel
       .find({ category: `${category}` })
       .count();
