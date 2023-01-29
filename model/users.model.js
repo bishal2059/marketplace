@@ -59,4 +59,25 @@ const createNewUser = async function (userData) {
   }
 };
 
-module.exports = { getUser, createNewUser };
+const getUserDetails = async function (id) {
+  try {
+    const userDetails = await usersModel.findById(id, {
+      password: 0,
+      favourites: 0,
+      cart: 0,
+      history: 0,
+      __v: 0,
+    });
+    if (!userDetails) {
+      throw new Error("User not found");
+    }
+    return userDetails;
+  } catch (err) {
+    console.log(err.message);
+    return {
+      error: "User not found",
+    };
+  }
+};
+
+module.exports = { getUser, createNewUser, getUserDetails };

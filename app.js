@@ -11,6 +11,7 @@ const cartRoute = require("./routes/cart.route");
 const { authenticateUser } = require("./middleware/auth.middleware");
 const verificationRouter = require("./routes/verification.route");
 const logoutRoute = require("./routes/logout.route");
+const userRoute = require("./routes/user.route");
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use("/favourites", authenticateUser, favouriteRoute);
 app.use("/cart", authenticateUser, cartRoute);
 app.use("/verify", verificationRouter);
 app.use("/logout", authenticateUser, logoutRoute);
+app.use("/user", authenticateUser, userRoute);
 
 app.all("*", (req, res) => {
   res.status(404).send("Page Not Found");
