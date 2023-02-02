@@ -1,13 +1,18 @@
 const { usersModel } = require("../model/users.mongo");
 
 const addData = async function (products, userId) {
-  let userFav;
+  let userFav, userCart;
   try {
-    const fav = await usersModel.findById(userId, { favourites: 1, _id: 0 });
+    const fav = await usersModel.findById(userId, {
+      favourites: 1,
+      cart: 1,
+      _id: 0,
+    });
     userFav = fav.favourites;
+    userCart = fav.cart;
   } catch (err) {
     console.log(err.message);
-    userFav = [];
+    userFav = userCart = [];
   }
   const addedFav = products.map((ele) => {
     const data = {
@@ -23,10 +28,14 @@ const addData = async function (products, userId) {
       stock: ele.stock,
       thumbnail: ele.thumbnail,
     };
-    if (userFav.includes(ele._id)) {
-      return Object.assign(data, { favourite: true });
+    if (userFav.includes(ele._id) && userCart.includes(ele._id)) {
+      return Object.assign(data, { favourite: true, cart: true });
+    } else if (userFav.includes(ele._id) && !userCart.includes(ele._id)) {
+      return Object.assign(data, { favourite: true, cart: false });
+    } else if (!userFav.includes(ele._id) && userCart.includes(ele._id)) {
+      return Object.assign(data, { favourite: false, cart: true });
     } else {
-      return Object.assign(data, { favourite: false });
+      return Object.assign(data, { favourite: false, cart: false });
     }
   });
   return addedFav;

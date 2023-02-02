@@ -1,3 +1,4 @@
+const { addData } = require("../services/addData");
 const { usersModel } = require("./users.mongo");
 
 const getCart = async function (id) {
@@ -7,7 +8,7 @@ const getCart = async function (id) {
       .populate({ path: "cart" });
     if (!cartProducts) return [];
 
-    return cartProducts;
+    return await addData(cartProducts.cart, id);
   } catch (err) {
     console.log(err.message);
     return {
