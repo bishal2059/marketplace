@@ -94,6 +94,11 @@ const saveProducts = async function (data) {
 
 const storeAllProducts = async function () {
   try {
+    const isThereData = await productsModel.count();
+    if (isThereData >= 100) {
+      console.log("Products data already loaded!");
+      return;
+    }
     const data = await axios.get("https://dummyjson.com/products/1");
     const firstData = await productsModel.find({ name: data.data.title });
     if (firstData.length > 0) {

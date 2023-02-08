@@ -9,29 +9,6 @@ const validation = {
   message: (props) => `${props.value} isn't the correct firstName`,
 };
 
-const historySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  brand: {
-    type: String,
-    required: true,
-  },
-  thumbnail: {
-    type: String,
-    required: true,
-  },
-  delivered: {
-    type: Boolean,
-    default: true,
-  },
-});
-
 const usersSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -111,7 +88,8 @@ const usersSchema = new mongoose.Schema({
   },
   history: {
     default: [],
-    type: [historySchema],
+    type: [mongoose.ObjectId],
+    ref: productsModel,
   },
   verified: {
     default: false,
