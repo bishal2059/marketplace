@@ -2,6 +2,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 
 const loginRoute = require("./routes/login.route");
 const productsRoute = require("./routes/products.route");
@@ -28,6 +29,8 @@ app.use(morgan("combined"));
 
 app.use(cookieParser());
 app.use(express.json());
+
+app.use("/", express.static(path.join(__dirname, "public")));
 
 app.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
