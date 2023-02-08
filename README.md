@@ -19,5 +19,7 @@ HOST_ID = use any mail service provider email // E.g: gmail id
 
 HOST_PASS = //For gmail create a app password and use that.
 
+STRIPE_SECRET_KEY = //Use Stripe secret key for payment.
+
 Use Postman to try this API
 To view my postman collection. click here: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/24921455-c56e89c4-853c-42b3-9a0c-be3fc22fa142?action=collection%2Ffork&collection-url=entityId%3D24921455-c56e89c4-853c-42b3-9a0c-be3fc22fa142%26entityType%3Dcollection%26workspaceId%3D974a369b-248f-4d75-8791-1eb1f8dde207)
