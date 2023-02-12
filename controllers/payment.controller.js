@@ -27,7 +27,7 @@ const httpPaymentHandler = async function (req, res) {
     })
     .then(() => {
       return stripe.charges.create({
-        amount: Number(productPrice) * 100,
+        amount: Number(productPrice).toFixed(2) * 100,
         currency: "usd",
         source: token.id,
         description: `${token.card.name} purchased ${product.name}  at ${productPrice}`,
