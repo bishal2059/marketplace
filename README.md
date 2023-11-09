@@ -4,26 +4,29 @@ Node-API for a test e-commerce website Marketplace
 
 It was build using Node,Express and MongoDB
 
-### To setup the API in local machine follow as below:
+## To setup the API in local machine follow as below:
 
-## 1. Run `npm install` in the root of the project folder
+#### 1. Run `npm install` in the root of the project folder
 
-## 2. Make an .env file in the root of the project with following components:
+### 2. Make an .env file in the root of the project with following components:
 
-`PORT= 8000
+```
+PORT= 8000
 MONGO_URL= //any mongodb url: use mongo atlas
-ACCESS_TOKEN_SECRET= //run this command in the node repl and paste the string`require('crypto').randomBytes(64).tostring('hex')` 
-REFRESH_TOKEN_SECRET= //run this command in the node repl and paste the string`require('crypto').randomBytes(64).tostring('hex')`HOST_ID= use any mail service provider email // E.g: gmail id
+ACCESS_TOKEN_SECRET= // use this: require('crypto').randomBytes(64).tostring('hex') in node repl to generate the random string
+REFRESH_TOKEN_SECRET= // use this: require('crypto').randomBytes(64).tostring('hex') in node repl to generate the random string
+HOST_ID= use any mail service provider email // E.g: gmail id
 HOST_PASS= //For gmail create a app password and use that.
-STRIPE_SECRET_KEY= //Use Stripe secret key for payment.`
+STRIPE_SECRET_KEY= //Use Stripe secret key for payment.
+```
 
-## 3. For Development purposes:
+### 3. For Development purposes:
 
-## Run `npm run watch` in the root of the project
+#### Run `npm run watch` in the root of the project
 
-## 4. For Deployment purposes:
+### 4. For Deployment purposes:
 
-## Run `npm start` in the root of the project
+#### Run `npm start` in the root of the project
 
 ### Use Postman to try this API
 
