@@ -18,10 +18,14 @@ const historyRoute = require("./routes/history.route");
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
-    origin: process.env.FRONT_END_URL,
+    origin: [process.env.FRONT_END_URL],
     credentials: true,
+    methods: ["POST", "PUT", "GET", "DELETE"],
+    exposedHeaders: ["set-cookie"],
   })
 );
 

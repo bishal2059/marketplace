@@ -23,10 +23,14 @@ const httploginHandler = async function (req, res) {
     res.cookie("jwt", accessToken, {
       httpOnly: true,
       maxAge: 10 * 60 * 60 * 1000,
+      sameSite: "none",
+      secure: true,
     });
     res.cookie("rjwt", refreshToken, {
       httpOnly: true,
       maxAge: 86400 * 7 * 1000,
+      sameSite: "none",
+      secure: true,
     });
     res.status(200).json({ user: userData._id });
   } catch (err) {

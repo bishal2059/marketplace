@@ -8,10 +8,14 @@ const httpLogoutHandler = async function (req, res) {
       res.cookie("jwt", "", {
         httpOnly: true,
         maxAge: 1,
+        sameSite: "none",
+        secure: true,
       });
       res.cookie("rjwt", "", {
         httpOnly: true,
         maxAge: 1,
+        sameSite: "none",
+        secure: true,
       });
       return res.status(200).json({ success: "Logout successful" });
     } else {

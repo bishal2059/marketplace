@@ -32,10 +32,14 @@ const authenticateUser = function (req, res, next) {
                 res.cookie("jwt", accessToken, {
                   httpOnly: true,
                   maxAge: 10 * 60 * 60 * 1000,
+                  sameSite: "none",
+                  secure: true,
                 });
                 res.cookie("rjwt", refToken, {
                   httpOnly: true,
                   maxAge: 86400 * 7 * 1000,
+                  sameSite: "none",
+                  secure: true,
                 });
                 return res.status(200).json({ success: "Token refreshed" });
               }
