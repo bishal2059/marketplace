@@ -26,7 +26,7 @@ const httpVerificationHandler = async function (req, res) {
   }
   const transporter = await createTransporter();
   const accessToken = await createAccessToken(id);
-  const verificationLink = `http://localhost:8000/verify/${accessToken}`;
+  const verificationLink = `${process.env.API_URL}/verify/${accessToken}`;
   const mailDetails = {
     from: process.env.HOST_ID,
     to: user.email,
@@ -58,7 +58,7 @@ const httpEmailVerificationHandler = async function (req, res) {
     res
       .status(500)
       .send(
-        `You account couldn't be verified. Please Try again later ${err.message}`
+        `Your account couldn't be verified. Please Try again later ${err.message}`
       );
   }
 };
