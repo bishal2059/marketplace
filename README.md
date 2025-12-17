@@ -1,35 +1,31 @@
-Node-API for a test e-commerce website Marketplace
-
 ## Marketplace API
 
-It was build using Node,Express and MongoDB
+Node/Express API for a Marketplace e-commerce service backed by MongoDB and Stripe.
 
-## To setup the API in local machine follow as below:
+- **Frontend**: https://github.com/bishal2059/marketplace-fe
 
-#### 1. Run `npm install` in the root of the project folder
+### Prerequisites
+- Node.js 18+
+- MongoDB connection string (Atlas or self-hosted)
+- Stripe secret key
+- Mail provider credentials for sending verification email
 
-### 2. Make an .env file in the root of the project with following components:
-
+### Quick Start
+1) Install dependencies: `npm install`
+2) Create `.env` in the project root:
 ```
-PORT= 8000
-MONGO_URL= //any mongodb url: use mongo atlas
-ACCESS_TOKEN_SECRET= // use this: require('crypto').randomBytes(64).tostring('hex') in node repl to generate the random string
-REFRESH_TOKEN_SECRET= // use this: require('crypto').randomBytes(64).tostring('hex') in node repl to generate the random string
-HOST_ID= use any mail service provider email // E.g: gmail id
-HOST_PASS= //For gmail create a app password and use that.
-STRIPE_SECRET_KEY= //Use Stripe secret key for payment.
+PORT=8000
+MONGO_URL=<your MongoDB URI>
+ACCESS_TOKEN_SECRET=<run: require('crypto').randomBytes(64).toString('hex')>
+REFRESH_TOKEN_SECRET=<run: require('crypto').randomBytes(64).toString('hex')>
+HOST_ID=<mailer email address>
+HOST_PASS=<mailer password or app password>
+STRIPE_SECRET_KEY=<your stripe secret key>
 ```
+3) Development server (nodemon): `npm run watch`
+4) Production server: `npm start`
 
-### 3. For Development purposes:
-
-#### Run `npm run watch` in the root of the project
-
-### 4. For Deployment purposes:
-
-#### Run `npm start` in the root of the project
-
-### Use Postman to try this API
-
-#### To view my postman collection. click here:
+### API Testing
+Use Postman with the collection below:
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/24921455-c56e89c4-853c-42b3-9a0c-be3fc22fa142?action=collection%2Ffork&collection-url=entityId%3D24921455-c56e89c4-853c-42b3-9a0c-be3fc22fa142%26entityType%3Dcollection%26workspaceId%3D974a369b-248f-4d75-8791-1eb1f8dde207)
